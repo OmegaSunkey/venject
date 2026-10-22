@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Dependencies (apt-get)
+        run: |
+          sudo apt-get update 
+          sudo apt-get install -y patchelf
+
+          curl -L -o /tmp/appimagetool https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage
+          chmod +x /tmp/appimagetool
+          sudo mv /tmp/appimagetool /usr/local/bin/appimagetool
+
+      # actions cmake doesn't come with appimage cpack
+      - name: Install CMake
+        uses: ssrobins/install-cmake@v1
+        with:
+          version: 4.4.2
+
+      - uses: jurplel/install-qt-action@48d3ad6db93f3627c8ee7a0454bc6f3744f7e730 # v4.3.1
+        name: Install Qt
+        with:
+          host: linux
+          modules: qtmultimedia
+          version: '6.10.1'
+          dir: ${{ github.workspace }}
+
+      - name: Build
+        run: |
+          make package JOBS=$(nproc) BUILD_TYPE=Release
+
+      - name: Upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: launcher-linux-x86_64
+          path: |
+            build/*.AppImage
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install dependencies (msys2)
+        uses: msys2/setup-msys2@66cd2cce69caa17b53920067426061ca1de3a884 # v2.32.0
+        with:
+          msystem: MINGW64
+          install: >
+            git
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-nsis
+            mingw-w64-x86_64-qt6-base
+            mingw-w64-x86_64-qt6-declarative
+            mingw-w64-x86_64-qt6-tools
+            mingw-w64-x86_64-qt6-svg
+            make
+            patch
+          update: true
+
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          make package BUILD_TYPE=Release JOBS=$(nproc) 
+
+      - name: Upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: launcher-windows-x86_64
+          path: |
+            build/venject-windows-x86_64-setup.exe
+
+  release:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [build-linux, build-windows]
+
+    steps:
+    - name: Download Linux x86_64 Artifact
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: launcher-linux-x86_64
+        path: dist/
+
+    - name: Download Windows x86_64 Artifact
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: launcher-windows-x86_64
+        path: dist/
+
+    - name: Create Release
+      uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+      with:
+        name: ${{ env.TAG }}
+        tag_name: ${{ env.TAG }}
+        files: |
+          dist/*
+        generate_release_notes: true
+        fail_on_unmatched_files: true
+        draft: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,13 @@
+BasedOnStyle: LLVM
+UseTab: Always
+TabWidth: 4
+IndentWidth: 4
+ColumnLimit: 0
+IndentCaseLabels: true
+BreakBeforeBraces: Linux
+AlignConsecutiveMacros: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+IndentPPDirectives: Leave
