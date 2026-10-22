@@ -23,5 +23,5 @@ class Launcher : public QObject
 	Q_INVOKABLE QVariantMap	 updateVencord();
 
 	Q_INVOKABLE QString uniqueLogPathForFile(const QString &id);
-    Q_INVOKABLE QString readTextFile(const QString &id);
+	Q_INVOKABLE QString readTextFile(const QString &id);
 };

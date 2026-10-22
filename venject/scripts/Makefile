@@ -1,8 +1,8 @@
 CC		:= cc
-CFLAGS 	:= -O2 -Wall -Wextra
+CFLAGS	:= -O2 -Wall -Wextra
 
-TARGET 	:= asar_pack
-SRC 	:= asar_pack.c
+TARGET	:= asar_pack
+SRC		:= asar_pack.c
 
 .PHONY: all clean
 
