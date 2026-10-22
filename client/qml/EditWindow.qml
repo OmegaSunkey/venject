@@ -111,17 +111,17 @@ Window {
 			Layout.fillWidth: true
 
 			TabButton {
-				text: "Discord Log"
+				text: qsTr("Discord Log")
 				icon.name: "network-server"
 				icon.source: "qrc:/VencordLauncher/resources/glyphs/document-list.svg"
 			}
 			TabButton {
-				text: "Settings"
+				text: qsTr("Settings")
 				icon.name: "edit-paste"
 				icon.source: "qrc:/VencordLauncher/resources/glyphs/settings.svg"
 			}
 			TabButton {
-				text: "Notes"
+				text: qsTr("Notes")
 				icon.name: "document-open"
 				icon.source: "qrc:/VencordLauncher/resources/glyphs/note.svg"
 			}
@@ -140,7 +140,7 @@ Window {
 					spacing: 12
 
 					Label {
-						text: "Discord Log"
+						text: qsTr("Discord Log")
 						font.bold: true
 						font.pixelSize: 18
 					}
@@ -161,7 +161,7 @@ Window {
 					RowLayout {
 
 						Button {
-							text: "Copy"
+							text: qsTr("Copy")
 
 							onClicked: {
 								logField.selectAll()
@@ -173,7 +173,7 @@ Window {
 						CheckBox {
 							id: enableLogging
 
-							text: "Keep updating"
+							text: qsTr("Keep updating")
 
 							onToggled: {
 								SettingsHelper.settings.enableLogging = checked
@@ -186,7 +186,7 @@ Window {
 						CheckBox {
 							id: enableLoggingWrap
 
-							text: "Wrap Lines"
+							text: qsTr("Wrap Lines")
 
 							onToggled: {
 								SettingsHelper.settings.enableLoggingWrap = checked
@@ -204,19 +204,19 @@ Window {
 					spacing: 12
 
 					Label {
-						text: "Settings"
+						text: qsTr("Settings")
 						font.bold: true
 						font.pixelSize: 18
 					}
 
 					Label {
-						text: "Vencord Installation"
+						text: qsTr("Vencord Installation")
 						font.bold: true
 						font.pixelSize: 15
 					}
 
 					Label {
-						text: "Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert."
+						text: qsTr("Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
 						wrapMode: Text.WordWrap
 						Layout.fillWidth: true
 					}
@@ -243,14 +243,14 @@ Window {
 					}
 
 					Label {
-						text: "Launch arguments"
+						text: qsTr("Launch arguments")
 						font.bold: true
 						font.pixelSize: 15
 						visible: Qt.platform.os !== "windows"
 					}
 
 					Label {
-						text: "Advanced users may choose to customize Discords & Electrons startup options."
+						text: qsTr("Advanced users may choose to customize Discords & Electrons startup options.")
 						wrapMode: Text.WordWrap
 						Layout.fillWidth: true
 						visible: Qt.platform.os !== "windows"
@@ -282,7 +282,7 @@ Window {
 					spacing: 12
 
 					Label {
-						text: "Notes"
+						text: qsTr("Notes")
 						font.bold: true
 						font.pixelSize: 18
 					}
@@ -293,7 +293,7 @@ Window {
 						Layout.fillWidth: true
 						Layout.fillHeight: true
 
-						placeholderText: "Enter notes..."
+						placeholderText: qsTr("Enter notes here that useful for you...")
 						wrapMode: TextEdit.Wrap
 						selectByMouse: true
 

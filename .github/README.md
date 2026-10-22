@@ -27,7 +27,7 @@ Building is going to be a bit convoluted for each platform, each having their ow
 
 ### Debian / Ubuntu Linux
 
-For packaging an AppImage, you're gonna need to do some extra steps outside of the package manager, you can see [here](https://github.com/claration/venject/blob/main/.github/workflows/build.yml#L16-L23) on how to do that.
+For packaging an AppImage, you're gonna need to do some extra steps outside of the package manager, you can see [here](https://github.com/claration/venject/blob/trunk/.github/workflows/build.yml#L16-L23) on how to do that.
 
 
 ```sh
