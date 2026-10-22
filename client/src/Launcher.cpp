@@ -13,8 +13,8 @@
 #include "paths/paths.hpp"
 
 #ifdef Q_OS_WIN32
-	#include <detours.h>
-	#include <windows.h>
+# include <windows.h>
+# include <detours.h>
 #endif
 
 Launcher::Launcher(QObject *parent) : QObject(parent)

@@ -1,16 +1,16 @@
 ﻿#ifdef __APPLE__
-	#error "Apple is not supported"
+# error "Apple is not supported"
 #elif defined(__linux__)
 
-	#include <cstdarg> // va
-	#include <dlfcn.h>
-	#include <fcntl.h> // O_CREAT
-	#include <string>
+#include <cstdarg> // va
+#include <dlfcn.h>
+#include <fcntl.h> // O_CREAT
+#include <string>
 
-	#include <dobby.h>
+#include <dobby.h>
 
-	#include "globals.h"
-	#include "utils.hpp"
+#include "globals.h"
+#include "utils.hpp"
 
 namespace
 {
@@ -128,16 +128,16 @@ __attribute__((constructor)) void init()
 
 #else // _WIN32
 
-	#include <cstdlib>
-	#include <filesystem>
-	#include <iostream>
-	#include <string>
+#include <cstdlib>
+#include <filesystem>
+#include <iostream>
+#include <string>
 
-	#include <detours.h>
-	#include <windows.h>
+#include <windows.h>
+#include <detours.h>
 
-	#include "../../shared/shared.hpp" // OurExecutablePath
-	#include "utils.hpp"
+#include "../../shared/shared.hpp" // OurExecutablePath
+#include "utils.hpp"
 
 namespace fs = std::filesystem;
 
