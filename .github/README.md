@@ -34,7 +34,7 @@ For packaging an AppImage, you're gonna need to do some extra steps outside of t
 sudo apt install -y \
     build-essential \
     cmake \
-	qt6-base-dev \
+    qt6-base-dev \
     qt6-declarative-dev \
     qt6-tools-dev \
     qt6-svg-dev
@@ -49,11 +49,11 @@ pacman -S \
     git \
     mingw-w64-x86_64-toolchain \
     mingw-w64-x86_64-cmake \
-	mingw-w64-x86_64-nsis \
-	mingw-w64-x86_64-qt6-base \
-	mingw-w64-x86_64-qt6-declarative \
-	mingw-w64-x86_64-qt6-tools \
-	mingw-w64-x86_64-qt6-svg \
+    mingw-w64-x86_64-nsis \
+    mingw-w64-x86_64-qt6-base \
+    mingw-w64-x86_64-qt6-declarative \
+    mingw-w64-x86_64-qt6-tools \
+    mingw-w64-x86_64-qt6-svg \
     make \
     patch
 ```
