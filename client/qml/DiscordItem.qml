@@ -12,35 +12,35 @@ Item {
 	readonly property bool isHovered: mouseArea.containsMouse
 
 	Menu {
-        id: contextMenu
+		id: contextMenu
 
-        MenuItem {
-            text: qsTr("Launch")
+		MenuItem {
+			text: qsTr("Launch")
 			icon.name: "media-playback-start"
 			icon.source: "qrc:/VencordLauncher/resources/glyphs/play.svg"
-            onTriggered: {
+			onTriggered: {
 				if (root.selectedItem) {
 					LaunchHelper.handleLaunch(root.selectedItem.path, SettingsHelper.settings.launchArgs,
 											  SettingsHelper.settings.entryPoint)
 				}
-            }
-        }
+			}
+		}
 
-        MenuItem {
-            text: qsTr("Edit...")
+		MenuItem {
+			text: qsTr("Edit...")
 			icon.name: "edit-paste"
 			icon.source: "qrc:/VencordLauncher/resources/glyphs/edit.svg"
 			onTriggered: {
 				root.editRequested()
 			}
-        }
+		}
 
 		MenuItem {
-            text: qsTr("Create Shortcut")
+			text: qsTr("Create Shortcut")
 			icon.name: "edit-paste"
 			icon.source: "qrc:/VencordLauncher/resources/glyphs/edit.svg"
-        }
-    }
+		}
+	}
 
 	MouseArea {
 		id: mouseArea
@@ -49,13 +49,13 @@ Item {
 		cursorShape: Qt.PointingHandCursor
 		acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onClicked: (mouse) => {
-            root.selectedItem = modelData
-            
-            if (mouse.button === Qt.RightButton) {
-                contextMenu.popup()
-            }
-        }
+		onClicked: mouse => {
+			root.selectedItem = modelData
+
+			if (mouse.button === Qt.RightButton) {
+				contextMenu.popup()
+			}
+		}
 
 		onDoubleClicked: {
 			root.selectedItem = modelData

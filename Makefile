@@ -1,12 +1,12 @@
 .PHONY: all clean build package
 
-JOBS       ?= 1
-BUILD_TYPE ?= Debug
+JOBS		?= 1
+BUILD_TYPE	?= Debug
 
 ifeq ($(OS),Windows_NT)
-    CMAKE_GENERATOR := -G "MinGW Makefiles"
+	CMAKE_GENERATOR := -G "MinGW Makefiles"
 else
-    CMAKE_GENERATOR :=
+	CMAKE_GENERATOR :=
 endif
 
 all: build

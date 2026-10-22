@@ -216,7 +216,8 @@ Window {
 					}
 
 					Label {
-						text: qsTr("Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
+						text: qsTr(
+								  "Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
 						wrapMode: Text.WordWrap
 						Layout.fillWidth: true
 					}
@@ -250,7 +251,8 @@ Window {
 					}
 
 					Label {
-						text: qsTr("Advanced users may choose to customize Discords & Electrons startup options.")
+						text: qsTr(
+								  "Advanced users may choose to customize Discords & Electrons startup options.")
 						wrapMode: Text.WordWrap
 						Layout.fillWidth: true
 						visible: Qt.platform.os !== "windows"

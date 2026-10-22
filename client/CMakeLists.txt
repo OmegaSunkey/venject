@@ -35,9 +35,9 @@ qt_add_executable(${PROJECT_NAME}
 )
 
 if(WIN32)
-    target_sources(${PROJECT_NAME} PRIVATE
-        resources/app.rc
-    )
+	target_sources(${PROJECT_NAME} PRIVATE
+		resources/app.rc
+	)
 endif()
 
 set(QML_FILES
