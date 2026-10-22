@@ -1,4 +1,3 @@
-embedded/app.asar
 scripts/asar_pack
 scripts/asar_pack.exe
 test.sh
