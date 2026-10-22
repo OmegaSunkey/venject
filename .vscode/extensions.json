@@ -4,6 +4,7 @@
 		"theqtcompany.qt-qml",
 		"Decodetalkers.neocmakelsp-vscode",
 		"llvm-vs-code-extensions.vscode-clangd",
-		"EditorConfig.EditorConfig"
+		"EditorConfig.EditorConfig",
+		"kylinideteam.cppdebug"
 	]
 }

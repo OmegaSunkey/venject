@@ -1,3 +1,16 @@
 {
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"files.insertFinalNewline": true,
+	"[c]": {
+		"editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+	},
+	"[cpp]": {
+		"editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+	},
+	"[cmake]": {
+		"editor.defaultFormatter": "Decodetalkers.neocmakelsp-vscode"
+	},
+	"[qml]": {
+		"editor.defaultFormatter": "Delgan.qml-format"
+	}
 }

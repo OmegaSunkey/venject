@@ -1,0 +1,16 @@
+{
+	"configurations": [
+		{
+			"name": "Compile and Debug (Windows)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/bin/VencordLauncher",
+			"cwd": "${workspaceFolder}",
+			"externalConsole": false,
+			"preLaunchTask": "build",
+			"windows": {
+				"program": "${workspaceFolder}/build/bin/VencordLauncher.exe"
+			}
+		}
+	]
+}
