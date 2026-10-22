@@ -62,6 +62,9 @@ int main(int argc, char **argv)
 	QCommandLineOption overrideEntryOpt(QStringList{"o", "override-entry"}, "Override Vencord patcher", "FILE PATH");
 	parser.addOption(overrideEntryOpt);
 
+	QCommandLineOption overrideDataDirOpt(QStringList{"d", "override-data-dir"}, "Override Vencord data directory", "FILE PATH");
+	parser.addOption(overrideDataDirOpt);
+
 	parser.process(app);
 
 	QString launch = parser.value(launchOpt);
@@ -71,6 +74,7 @@ int main(int argc, char **argv)
 	QString launchArg{};
 	#endif  // Q_OS_WIN32
 	QString overrideEntry = parser.value(overrideEntryOpt);
+	QString overrideDataDir = parser.value(overrideDataDirOpt);
 
 	QStringList launch_mod_argv;
 
@@ -80,7 +84,13 @@ int main(int argc, char **argv)
 	if (!launch.isEmpty())
 	{
 		Launcher launcher;
-		launcher.launch(launch, launchArg, overrideEntry, launch_mod_argv);
+		launcher.launch(
+			launch, 
+			launchArg, 
+			overrideEntry, 
+			overrideDataDir, 
+			launch_mod_argv
+		);
 		exit(0); // app.exit() is so broken
 	}
 

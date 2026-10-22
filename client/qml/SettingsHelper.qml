@@ -9,6 +9,7 @@ QtObject {
 		category: "discords/" + currentItemId
 
 		property string entryPoint: ""
+		property string userData: ""
 		property string launchArgs: ""
 		property string notes: ""
 		property bool enableLogging: true

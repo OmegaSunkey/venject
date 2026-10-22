@@ -20,8 +20,12 @@ Item {
 			icon.source: "qrc:/VencordLauncher/resources/glyphs/play.svg"
             onTriggered: {
 				if (root.selectedItem) {
-					LaunchHelper.handleLaunch(root.selectedItem.path, SettingsHelper.settings.launchArgs,
-											  SettingsHelper.settings.entryPoint)
+					LaunchHelper.handleLaunch(
+						root.selectedItem.path,
+						SettingsHelper.settings.launchArgs,
+						SettingsHelper.settings.entryPoint,
+						SettingsHelper.settings.userData
+					)
 				}
             }
         }

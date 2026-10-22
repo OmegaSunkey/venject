@@ -28,6 +28,7 @@ Window {
 
 	function loadSettings() {
 		entryPointField.text = SettingsHelper.settings.entryPoint
+		userDataField.text = SettingsHelper.settings.userData
 		launchArgsField.text = SettingsHelper.settings.launchArgs
 		notesField.text = SettingsHelper.settings.notes
 		enableLogging.checked = SettingsHelper.settings.enableLogging
@@ -89,6 +90,18 @@ Window {
 			const path = selectedFile.toString().replace("file://", "")
 			entryPointField.text = path
 			SettingsHelper.settings.entryPoint = path
+		}
+	}
+
+	FolderDialog {
+		id: userDataFileDialog
+
+		title: "Choose a Vencord data directory"
+
+		onAccepted: {
+			const path = selectedFolder.toString().replace("file://", "")
+			userDataField.text = path
+			SettingsHelper.settings.userData = path
 		}
 	}
 
@@ -198,78 +211,112 @@ Window {
 
 			// Settings tab
 			Item {
-				ColumnLayout {
+				ScrollView {
+					id: scrollView
 					anchors.fill: parent
-					anchors.margins: 12
-					spacing: 12
+					clip: true
 
-					Label {
-						text: qsTr("Settings")
-						font.bold: true
-						font.pixelSize: 18
-					}
+					Pane {
+						width: scrollView.availableWidth
+						padding: 12
+						background: null
 
-					Label {
-						text: qsTr("Vencord Installation")
-						font.bold: true
-						font.pixelSize: 15
-					}
+						ColumnLayout {
+							width: parent.width
+							spacing: 12
 
-					Label {
-						text: qsTr("Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
-						wrapMode: Text.WordWrap
-						Layout.fillWidth: true
-					}
+							Label {
+								text: qsTr("Settings")
+								font.bold: true
+								font.pixelSize: 18
+							}
 
-					RowLayout {
-						Layout.fillWidth: true
-						spacing: 12
+							Label {
+								text: qsTr("Vencord Installation")
+								font.bold: true
+								font.pixelSize: 15
+							}
 
-						TextField {
-							id: entryPointField
+							Label {
+								text: qsTr("Custom Vencord entry point path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
+								wrapMode: Text.WordWrap
+								Layout.fillWidth: true
+							}
 
-							Layout.fillWidth: true
-							placeholderText: "/home/claration/.config/Vencord/dist/patcher.js"
+							RowLayout {
+								Layout.fillWidth: true
+								spacing: 12
 
-							onTextEdited: {
-								SettingsHelper.settings.entryPoint = text
+								TextField {
+									id: entryPointField
+
+									Layout.fillWidth: true
+									placeholderText: "/home/claration/.config/Vencord/dist/patcher.js"
+
+									onTextEdited: {
+										SettingsHelper.settings.entryPoint = text
+									}
+								}
+
+								Button {
+									text: qsTr("Browse")
+									onClicked: entryPointFileDialog.open()
+								}
+							}
+
+							Label {
+								text: qsTr("Custom Vencord data path, keep blank for default.\n\nNote: choosing a custom location will disable the update alert.")
+								wrapMode: Text.WordWrap
+								Layout.fillWidth: true
+							}
+
+							RowLayout {
+								Layout.fillWidth: true
+								spacing: 12
+
+								TextField {
+									id: userDataField
+
+									Layout.fillWidth: true
+									placeholderText: "/home/claration/.config/Vencord"
+
+									onTextEdited: {
+										SettingsHelper.settings.userData = text
+									}
+								}
+
+								Button {
+									text: qsTr("Browse")
+									onClicked: userDataFileDialog.open()
+								}
+							}
+
+							Label {
+								text: qsTr("Launch arguments")
+								font.bold: true
+								font.pixelSize: 15
+								visible: Qt.platform.os !== "windows"
+							}
+
+							Label {
+								text: qsTr("Advanced users may choose to customize Discords & Electrons startup options.")
+								wrapMode: Text.WordWrap
+								Layout.fillWidth: true
+								visible: Qt.platform.os !== "windows"
+							}
+
+							TextField {
+								id: launchArgsField
+
+								Layout.fillWidth: true
+								placeholderText: "--start-minimized --enable-blink-features=MiddleClickAutoscroll"
+								visible: Qt.platform.os !== "windows"
+
+								onTextEdited: {
+									SettingsHelper.settings.launchArgs = text
+								}
 							}
 						}
-
-						Button {
-							text: "Browse"
-							onClicked: entryPointFileDialog.open()
-						}
-					}
-
-					Label {
-						text: qsTr("Launch arguments")
-						font.bold: true
-						font.pixelSize: 15
-						visible: Qt.platform.os !== "windows"
-					}
-
-					Label {
-						text: qsTr("Advanced users may choose to customize Discords & Electrons startup options.")
-						wrapMode: Text.WordWrap
-						Layout.fillWidth: true
-						visible: Qt.platform.os !== "windows"
-					}
-
-					TextField {
-						id: launchArgsField
-
-						Layout.fillWidth: true
-						placeholderText: "--start-minimized --enable-blink-features=MiddleClickAutoscroll"
-						visible: Qt.platform.os !== "windows"
-
-						onTextEdited: {
-							SettingsHelper.settings.launchArgs = text
-						}
-					}
-
-					Item {
-						Layout.fillHeight: true
 					}
 				}
 			}

@@ -78,6 +78,7 @@ ApplicationWindow {
 		property string launchPath: ""
 		property string launchArgs: ""
 		property string entryPointPath: ""
+		property string userDataPath: ""
 		property string updateInstalledHash: ""
 		property string updateLatestHash: ""
 
@@ -92,18 +93,18 @@ ApplicationWindow {
 				errorDialog.open()
 				return
 			}
-			Launcher.launchSelf(launchPath, launchArgs, entryPointPath)
+			Launcher.launchSelf(launchPath, launchArgs, entryPointPath, userDataPath)
 		}
 
 		onRejected: {
-			Launcher.launchSelf(launchPath, launchArgs, entryPointPath)
+			Launcher.launchSelf(launchPath, launchArgs, entryPointPath, userDataPath)
 		}
 	}
 
 	Connections {
 		target: LaunchHelper
 
-		function onHandleLaunchMessage(path, launchArgs, entryPointPath) {
+		function onHandleLaunchMessage(path, launchArgs, entryPointPath, userDataPath) {
 			const result = Launcher.checkForUpdates()
 
 			if (!result.success) {
@@ -114,13 +115,14 @@ ApplicationWindow {
 			}
 
 			if (result.upToDate) {
-				Launcher.launchSelf(path, launchArgs, entryPointPath)
+				Launcher.launchSelf(path, launchArgs, entryPointPath, userDataPath)
 				return
 			}
 
 			updateDialog.launchPath = path
 			updateDialog.launchArgs = launchArgs
 			updateDialog.entryPointPath = entryPointPath
+			updateDialog.userDataPathPath = userDataPath
 			updateDialog.updateInstalledHash = result.installedHash
 			updateDialog.updateLatestHash = result.latestHash
 			updateDialog.open()
