@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 #else  // Q_OS_WIN32
 	QString launchArg{};
 #endif // Q_OS_WIN32
-	QString overrideEntry = parser.value(overrideEntryOpt);
+	QString overrideEntry	= parser.value(overrideEntryOpt);
 	QString overrideDataDir = parser.value(overrideDataDirOpt);
 
 	QStringList launch_mod_argv;
@@ -84,12 +84,11 @@ int main(int argc, char **argv)
 	if (!launch.isEmpty()) {
 		Launcher launcher;
 		launcher.launch(
-			launch, 
-			launchArg, 
-			overrideEntry, 
-			overrideDataDir, 
-			launch_mod_argv
-		);
+			launch,
+			launchArg,
+			overrideEntry,
+			overrideDataDir,
+			launch_mod_argv);
 		exit(0); // app.exit() is so broken
 	}
 

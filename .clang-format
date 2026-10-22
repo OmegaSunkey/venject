@@ -10,4 +10,5 @@ AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
 AllowShortFunctionsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
-IndentPPDirectives: Leave
+IndentPPDirectives: None
+SortIncludes: false

@@ -13,8 +13,8 @@
 #include "paths/paths.hpp"
 
 #ifdef Q_OS_WIN32
-# include <windows.h>
-# include <detours.h>
+#include <windows.h>
+#include <detours.h>
 #endif
 
 Launcher::Launcher(QObject *parent) : QObject(parent)
@@ -22,11 +22,11 @@ Launcher::Launcher(QObject *parent) : QObject(parent)
 }
 
 void Launcher::launchSelf(
-	const QString	&path,
-	const QString	&discord_args,
-	const QString	&entry_point_path,
-	const QString	&data_dir_path
-) {
+	const QString &path,
+	const QString &discord_args,
+	const QString &entry_point_path,
+	const QString &data_dir_path)
+{
 	QProcess process;
 
 	QStringList args;
@@ -46,7 +46,6 @@ void Launcher::launchSelf(
 		args.append(entry_point_path);
 	}
 
-
 	if (!data_dir_path.isEmpty()) {
 		args.append("-d");
 		args.append(data_dir_path);
@@ -62,22 +61,24 @@ void Launcher::launchSelf(
 // we're special just like how windows is special
 // this is done for the gui launcher, we store settings
 // in a specific way.
-static inline QString fixWindowsPath(QString jsPath) {
-	#ifdef Q_OS_WIN
-    if (jsPath.startsWith('/') && jsPath.size() >= 3 && jsPath[2] == ':') {
-        jsPath.remove(0, 1);
-    }
-	#endif
-    return jsPath;
+static inline QString fixWindowsPath(QString jsPath)
+{
+#ifdef Q_OS_WIN
+	if (jsPath.startsWith('/') && jsPath.size() >= 3 && jsPath[2] == ':') {
+		jsPath.remove(0, 1);
+	}
+#endif
+	return jsPath;
 }
 
 void Launcher::launch(
-	const QString     &path,  // discord executable
-	const QString     &args,  // discord args (-a)
-	const QString     &entry, // vencord entrypoint (-o)
-	const QString     &data,  // vencord data dir (-u)
-	const QStringList &argv  // mod loader full argv
-) {
+	const QString	  &path,  // discord executable
+	const QString	  &args,  // discord args (-a)
+	const QString	  &entry, // vencord entrypoint (-o)
+	const QString	  &data,  // vencord data dir (-u)
+	const QStringList &argv	  // mod loader full argv
+)
+{
 	QJsonArray jsonArgs;
 
 	for (const auto &arg : argv)

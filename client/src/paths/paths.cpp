@@ -1,15 +1,15 @@
 #include "paths.hpp"
 
 #ifdef __APPLE__
-	#error "Apple is not supported"
+#error "Apple is not supported"
 #else // __APPLE__
 
-	#include <algorithm>
-	#include <cstdlib>
-	#include <filesystem>
-	#include <unordered_set>
+#include <algorithm>
+#include <cstdlib>
+#include <filesystem>
+#include <unordered_set>
 
-	#include "../../../shared/shared.hpp"
+#include "../../../shared/shared.hpp"
 
 namespace fs = std::filesystem;
 
@@ -67,18 +67,18 @@ std::vector<DiscordInstall> FindDiscords()
 	};
 
 	const std::vector<std::tuple<fs::path, const char *, const char *, bool>> checks = {
-	#ifdef _WIN32
+#ifdef _WIN32
 		{home / "Discord", "Discord", "Stable", false},
 		{home / "DiscordCanary", "DiscordCanary", "Canary", false},
 		{home / "DiscordPTB", "DiscordPTB", "PTB", false}
-	#else
+#else
 		{home / ".config/discord", "Discord", "Stable", false},
 		{home / ".config/discordcanary", "DiscordCanary", "Canary", false},
 		{home / ".config/discordptb", "DiscordPTB", "PTB", false},
 		{home / ".var/app/com.discordapp.Discord/config/discord", "Discord", "Stable", true},
 		{home / ".var/app/com.discordapp.DiscordCanary/config/discord", "DiscordCanary", "Canary", true},
 		{home / ".var/app/com.discordapp.DiscordPTB/config/discord", "DiscordPTB", "PTB", true}
-	#endif
+#endif
 	};
 
 	for (const auto &[base, exeName, branch, flatpak] : checks) {
@@ -105,9 +105,9 @@ std::vector<DiscordInstall> FindDiscords()
 		bool found = false;
 		for (const auto &[version, dir] : versions) {
 			fs::path exe = dir / exeName;
-	#ifdef _WIN32
+#ifdef _WIN32
 			exe += ".exe";
-	#endif
+#endif
 			if (add(exe, branch, flatpak, base.string())) {
 				found = true;
 				break;
@@ -116,9 +116,9 @@ std::vector<DiscordInstall> FindDiscords()
 
 		if (!found) {
 			fs::path exe = base / exeName;
-	#ifdef _WIN32
+#ifdef _WIN32
 			exe += ".exe";
-	#endif
+#endif
 			add(exe, branch, flatpak, base.string());
 		}
 	}
@@ -128,11 +128,11 @@ std::vector<DiscordInstall> FindDiscords()
 
 fs::path OurHookLibraryPath()
 {
-	#ifdef _WIN32
+#ifdef _WIN32
 	return shared::OurExecutablePath().parent_path() / "libvencord_hook.dll";
-	#else
+#else
 	return shared::OurExecutablePath().parent_path() / "libvencord_hook.so";
-	#endif
+#endif
 }
 
 } // namespace paths

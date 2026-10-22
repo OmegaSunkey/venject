@@ -1,5 +1,5 @@
 ﻿#ifdef __APPLE__
-# error "Apple is not supported"
+#error "Apple is not supported"
 #elif defined(__linux__)
 
 #include <cstdarg> // va
@@ -153,23 +153,23 @@ static move_file_ex_w_t		   original_move_file_ex_w			= nullptr;
 static create_process_w_t	   original_create_process_w		= nullptr;
 static uv_fs_lstat_t		   original_uv_fs_lstat				= nullptr;
 
-	#define ERROR_HOOKING_MSG(msg) \
-		MessageBoxA(               \
-			NULL,                  \
-			(msg),                 \
-			"Error Hooking",       \
-			MB_OK)
+#define ERROR_HOOKING_MSG(msg) \
+	MessageBoxA(               \
+		NULL,                  \
+		(msg),                 \
+		"Error Hooking",       \
+		MB_OK)
 
-	#define ATTACH(orig, target)                                         \
-		{                                                                \
-			LONG result = DetourAttach(&(PVOID &)orig, (PVOID)(target)); \
-			if (result != 0) {                                           \
-				ERROR_HOOKING_MSG("Failed to hook " #orig                \
-								  ". Please report this issue.");        \
-				DetourTransactionAbort();                                \
-				return FALSE;                                            \
-			}                                                            \
-		}
+#define ATTACH(orig, target)                                         \
+	{                                                                \
+		LONG result = DetourAttach(&(PVOID &)orig, (PVOID)(target)); \
+		if (result != 0) {                                           \
+			ERROR_HOOKING_MSG("Failed to hook " #orig                \
+							  ". Please report this issue.");        \
+			DetourTransactionAbort();                                \
+			return FALSE;                                            \
+		}                                                            \
+	}
 
 std::string lpcwstr_to_string(LPCWSTR lpcwszStr)
 {
@@ -353,9 +353,9 @@ BOOL WINAPI DllMain(HINSTANCE, DWORD fdwReason, LPVOID)
 		return FALSE;
 	}
 
-	#ifdef _DEBUG
+#ifdef _DEBUG
 	AllocConsole();
-	#endif
+#endif
 
 	ATTACH(original_get_file_attributes_w_t, get_file_attributes_w)
 	ATTACH(original_create_file_w, create_file_w)
