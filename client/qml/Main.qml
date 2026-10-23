@@ -122,7 +122,7 @@ ApplicationWindow {
 			updateDialog.launchPath = path
 			updateDialog.launchArgs = launchArgs
 			updateDialog.entryPointPath = entryPointPath
-			updateDialog.userDataPathPath = userDataPath
+			updateDialog.userDataPath = userDataPath
 			updateDialog.updateInstalledHash = result.installedHash
 			updateDialog.updateLatestHash = result.latestHash
 			updateDialog.open()
