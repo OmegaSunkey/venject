@@ -13,7 +13,7 @@ include(FetchContent)
 # MARK: CMAKE DEPENDENCIES
 # =========================
 
-if(NOT MINGW)
+if(LINUX)
 	find_program(PATCH patch REQUIRED)
 	set(DOBBY_DEBUG OFF CACHE BOOL "" FORCE)
 	set(DOBBY_GENERATE_SHARED OFF CACHE BOOL "" FORCE)
@@ -65,7 +65,7 @@ if(MINGW)
 	target_link_libraries(${PROJECT_NAME} PRIVATE
 		lib_detours
 	)
-else()
+elseif(LINUX)
 	target_link_libraries(${PROJECT_NAME} PRIVATE
 		dobby
 		dl
@@ -89,13 +89,23 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 	)
 endif()
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-)
 
-install(
-	TARGETS ${PROJECT_NAME}
-	LIBRARY DESTINATION bin
-	RUNTIME DESTINATION bin
-)
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/VencordLauncher.app/Contents/MacOS"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/VencordLauncher.app/Contents/MacOS"
+    )
+else()
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )
+endif()
+
+if(NOT APPLE)
+	install(
+		TARGETS ${PROJECT_NAME}
+		LIBRARY DESTINATION bin
+		RUNTIME DESTINATION bin
+	)
+endif()

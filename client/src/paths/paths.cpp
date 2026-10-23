@@ -1,13 +1,12 @@
 #include "paths.hpp"
 
-#ifdef __APPLE__
-#error "Apple is not supported"
-#else // __APPLE__
-
 #include <algorithm>
 #include <cstdlib>
 #include <filesystem>
 #include <unordered_set>
+#if __APPLE__
+#include <sstream>
+#endif
 
 #include "../../../shared/shared.hpp"
 
@@ -137,4 +136,3 @@ fs::path OurHookLibraryPath()
 
 } // namespace paths
 
-#endif // __APPLE__

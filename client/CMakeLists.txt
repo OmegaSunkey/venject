@@ -22,8 +22,8 @@ find_package(Qt6 CONFIG REQUIRED COMPONENTS
 # =========================
 
 qt_standard_project_setup(
-		I18N_SOURCE_LANGUAGE en_US
-		I18N_TRANSLATED_LANGUAGES
+	I18N_SOURCE_LANGUAGE en_US
+	I18N_TRANSLATED_LANGUAGES
 )
 
 qt_add_executable(${PROJECT_NAME}
@@ -104,6 +104,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+
+if(APPLE)
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+	    MACOSX_BUNDLE TRUE
+	)
+endif()
 
 if(MINGW)
 	set_target_properties(${PROJECT_NAME} PROPERTIES

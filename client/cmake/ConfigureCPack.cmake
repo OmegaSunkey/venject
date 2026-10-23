@@ -1,4 +1,8 @@
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+if(APPLE)
+	install(TARGETS VencordLauncher BUNDLE DESTINATION .)
+else()
+	install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+endif()
 
 # what the fuck
 if(WIN32 AND MINGW)
