@@ -129,6 +129,8 @@ fs::path OurHookLibraryPath()
 {
 #ifdef _WIN32
 	return shared::OurExecutablePath().parent_path() / "libvencord_hook.dll";
+#elif __APPLE__
+	return shared::OurExecutablePath().parent_path() / "libvencord_hook.dylib";
 #else
 	return shared::OurExecutablePath().parent_path() / "libvencord_hook.so";
 #endif
