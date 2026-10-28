@@ -1,13 +1,6 @@
-#include <cstdio>
-#include <cstdlib>
-#include <getopt.h> // getopt_long
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <QCommandLineParser>
 #include <QCoreApplication>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QIcon>
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -19,7 +12,8 @@
 #include <QVariantList>
 #include <QVariantMap>
 
-#include "Launcher.hpp"
+#include "DiscordInstall.hpp"
+#include "LaunchInstance.hpp"
 
 int main(int argc, char **argv)
 {
@@ -28,22 +22,27 @@ int main(int argc, char **argv)
 
 	// force software renderer because some people
 	// might not have a gpu
-	if (qgetenv("QT_QUICK_BACKEND").isEmpty()) {
+	if (qEnvironmentVariableIsEmpty("QT_QUICK_BACKEND")) {
 		qputenv("QT_QUICK_BACKEND", "software");
 	}
 
-	QGuiApplication app(argc, argv);
-
-	app.setOrganizationName("claration");
-	app.setOrganizationDomain("clarati.on");
-	app.setApplicationName("VencordLauncher");
-	app.setApplicationDisplayName("Vencord Launcher " VERSION);
-	app.setApplicationVersion(VERSION);
+	// qt is fucking stupid
+	std::unique_ptr<QGuiApplication> app;
+	if (qgetenv("__VENCORDLAUNCHER_MODE_CLI").isEmpty()) {
+		app = std::make_unique<QGuiApplication>(argc, argv);
+	} else {
+		app = std::make_unique<QApplication>(argc, argv);
+	}
+	app->setOrganizationName("VencordLauncher");
+	app->setOrganizationDomain("clarati.on");
+	app->setApplicationName("VencordLauncher");
+	app->setApplicationDisplayName("Vencord Launcher " VERSION);
+	app->setApplicationVersion(VERSION);
 #ifdef Q_OS_WIN32
 	QQuickStyle::setStyle("FluentWinUI3");
-	app.setWindowIcon(QIcon(":/VencordLauncher/resources/icon.ico"));
+	app->setWindowIcon(QIcon(":/VencordLauncher/resources/icon.ico"));
 #else  // Q_OS_WIN32
-	app.setWindowIcon(QIcon(":/VencordLauncher/resources/icon.png"));
+	app->setWindowIcon(QIcon(":/VencordLauncher/resources/icon.png"));
 #endif // Q_OS_WIN32
 
 	QCommandLineParser parser;
@@ -51,60 +50,34 @@ int main(int argc, char **argv)
 	parser.addHelpOption();
 	parser.addVersionOption();
 
-	QCommandLineOption launchOpt(QStringList{"l", "launch"}, "Launch a Discord executable", "FILE PATH");
-	parser.addOption(launchOpt);
+	QCommandLineOption launchIdOpt(QStringList{"i", "id"}, "Launch an existing instance", "ID");
+	parser.addOption(launchIdOpt);
+	parser.process(*app);
 
-#ifndef Q_OS_WIN32
-	QCommandLineOption launchArgOpt(QStringList{"a", "launch-arg"}, "Override launch arguments", "ARG");
-	parser.addOption(launchArgOpt);
-#endif // Q_OS_WIN32
-
-	QCommandLineOption overrideEntryOpt(QStringList{"o", "override-entry"}, "Override Vencord patcher", "FILE PATH");
-	parser.addOption(overrideEntryOpt);
-
-	QCommandLineOption overrideDataDirOpt(QStringList{"d", "override-data-dir"}, "Override Vencord data directory", "FILE PATH");
-	parser.addOption(overrideDataDirOpt);
-
-	parser.process(app);
-
-	QString launch = parser.value(launchOpt);
-#ifndef Q_OS_WIN32
-	QString launchArg = parser.value(launchArgOpt);
-#else  // Q_OS_WIN32
-	QString launchArg{};
-#endif // Q_OS_WIN32
-	QString overrideEntry	= parser.value(overrideEntryOpt);
-	QString overrideDataDir = parser.value(overrideDataDirOpt);
-
+	QString launchId = parser.value(launchIdOpt);
 	QStringList launch_mod_argv;
 
 	for (int i = 0; i < argc; ++i)
 		launch_mod_argv.append(QString::fromLocal8Bit(argv[i]));
 
-	if (!launch.isEmpty()) {
-		Launcher launcher;
-		launcher.launch(
-			launch,
-			launchArg,
-			overrideEntry,
-			overrideDataDir,
-			launch_mod_argv);
-		exit(0); // app.exit() is so broken
-	}
-
 #ifdef Q_OS_WIN
 	QSettings::setDefaultFormat(QSettings::IniFormat);
 #endif
+
+	if (!launchId.isEmpty()) {
+		LaunchInstance::launchById(launchId, launch_mod_argv);
+		return 0;
+	}
 
 	QQmlApplicationEngine engine;
 
 	QObject::connect(
 		&engine,
 		&QQmlApplicationEngine::objectCreationFailed,
-		&app,
+		app.get(),
 		[]() { QCoreApplication::exit(-1); },
 		Qt::QueuedConnection);
 
-	engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/Main.qml")));
-	return app.exec();
+	engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/MainWindow.qml")));
+	return app->exec();
 }
