@@ -36,7 +36,7 @@
     <message>
         <location filename="../qml/AddWindow.qml" line="157"/>
         <source>None</source>
-        <translation></translation>
+        <translation>Ninguno</translation>
     </message>
     <message>
         <location filename="../qml/AddWindow.qml" line="166"/>
