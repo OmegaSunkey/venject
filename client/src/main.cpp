@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	parser.addOption(launchIdOpt);
 	parser.process(*app);
 
-	QString launchId = parser.value(launchIdOpt);
+	QString		launchId = parser.value(launchIdOpt);
 	QStringList launch_mod_argv;
 
 	for (int i = 0; i < argc; ++i)
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
-	QQmlApplicationEngine engine;
+	QQmlApplicationEngine engine{"VencordLauncher", "MainWindow"};
 
 	QObject::connect(
 		&engine,
@@ -78,6 +78,6 @@ int main(int argc, char **argv)
 		[]() { QCoreApplication::exit(-1); },
 		Qt::QueuedConnection);
 
-	engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/MainWindow.qml")));
+	// engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/MainWindow.qml")));
 	return app->exec();
 }
