@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 
-	QQmlApplicationEngine engine{"VencordLauncher", "MainWindow"};
+	QQmlApplicationEngine engine;
 
 	QObject::connect(
 		&engine,
@@ -78,6 +78,6 @@ int main(int argc, char **argv)
 		[]() { QCoreApplication::exit(-1); },
 		Qt::QueuedConnection);
 
-	// engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/MainWindow.qml")));
+	engine.load(QUrl(QStringLiteral("qrc:/VencordLauncher/MainWindow.qml")));
 	return app->exec();
 }

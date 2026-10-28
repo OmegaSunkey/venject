@@ -99,7 +99,7 @@ qt_add_translations(${PROJECT_NAME}
 	TS_FILE_BASE qml
 	TS_FILE_DIR i18n
 	TS_OUTPUT_DIRECTORY i18n
-	RESOURCE_PREFIX "/qt/qml/${PROJECT_NAME}/i18n")
+	RESOURCE_PREFIX "/${PROJECT_NAME}/i18n")
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	VERSION="${VERSION}"
